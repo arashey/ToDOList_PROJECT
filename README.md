@@ -40,7 +40,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/todolist-django.git
+   git clone https://github.com/arashey/ToDOList_PROJECT.git
    cd todolist-django
 Create and activate a virtual environment
 
@@ -189,5 +189,5 @@ Happy coding! 🚀
 
 1. **کلون کردن مخزن (یا کپی کردن فایل‌ها)**
    ```bash
-   git clone https://github.com/yourusername/todolist-django.git
+   git clone https://github.com/arashey/ToDOList_PROJECT.git
    cd todolist-django
