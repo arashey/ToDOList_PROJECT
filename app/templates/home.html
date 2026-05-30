@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست کارهای من | To-Do List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .username {
+            background: #f3f4f6;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #ef4444;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-logout:hover {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+
+        .btn-add {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            transition: opacity 0.2s, transform 0.1s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-add:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .task-list {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .task-item {
+            background: #f9fafb;
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            transition: box-shadow 0.2s, background 0.2s;
+        }
+
+        .task-item:hover {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .task-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            flex: 2;
+            min-width: 150px;
+        }
+
+        .task-title a {
+            text-decoration: none;
+            color: #1f2937;
+        }
+
+        .task-title a:hover {
+            color: #667eea;
+            text-decoration: underline;
+        }
+
+        .task-status {
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: #eef2ff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            color: #4f46e5;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .task-actions a {
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 1.5rem;
+            transition: background 0.2s;
+            font-weight: 500;
+        }
+
+        .edit-link {
+            color: #2563eb;
+            background: #dbeafe;
+        }
+
+        .edit-link:hover {
+            background: #bfdbfe;
+        }
+
+        .delete-link {
+            color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .delete-link:hover {
+            background: #fecaca;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: #6b7280;
+            padding: 2rem;
+            font-size: 1.1rem;
+            background: #f9fafb;
+            border-radius: 1rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.4rem;
+            }
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .task-status {
+                align-self: flex-start;
+            }
+            .task-actions {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>📋 لیست کارهای من</h1>
+                <div class="user-info">
+                    <span class="username">👤 {{ request.user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-logout">🚪 خروج</button>
+                    </form>
+                </div>
+            </div>
+
+            <a href="{% url 'add_task' %}" class="btn-add">➕ افزودن کار جدید</a>
+
+            {% if tasks %}
+                <ul class="task-list">
+                    {% for task in tasks %}
+                        <li class="task-item">
+                            <div class="task-title">
+                                <a href="{% url 'task_details' task.id %}">
+                                    {{ task.title }}
+                                </a>
+                            </div>
+                            <div class="task-status">
+                                {% if task.is_done %}✅ انجام شده{% else %}⏳ انجام نشده{% endif %}
+                            </div>
+                            <div class="task-actions">
+                                <a href="{% url 'edit_task' task.id %}" class="edit-link">✏️ ویرایش</a>
+                                <a href="{% url 'delete_task' task.id %}" class="delete-link">🗑️ حذف</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-msg">
+                    🎯 هیچ کاری ثبت نشده است. اولین کار خود را اضافه کنید!
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

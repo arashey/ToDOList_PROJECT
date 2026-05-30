@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حذف کار | To-Do List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .task-title {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            display: inline-block;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+
+        .warning-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .message {
+            color: #4b5563;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+
+        .btn-cancel {
+            display: inline-block;
+            background: #e5e7eb;
+            color: #374151;
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background: #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="warning-icon">⚠️</div>
+        <h1>آیا از حذف این کار مطمئنی؟</h1>
+        <div class="task-title">{{ task.title }}</div>
+        <div class="message">
+            این عمل غیرقابل بازگشت است و یادداشت مورد نظر برای همیشه حذف خواهد شد.
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="buttons">
+                <button type="submit" class="btn-delete">🗑️ بله، حذف کن</button>
+                <a href="{% url 'task_list' %}" class="btn-cancel">↩️ انصراف</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

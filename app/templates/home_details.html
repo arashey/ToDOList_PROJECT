@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جزئیات کار | To-Do List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .detail-item {
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #4b5563;
+            min-width: 100px;
+        }
+
+        .detail-value {
+            color: #1f2937;
+            background: #f9fafb;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.75rem;
+            flex: 1;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-weight: 500;
+        }
+
+        .status-done {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-pending {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 1.5rem;
+            background: #e5e7eb;
+            color: #374151;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn-back:hover {
+            background: #d1d5db;
+        }
+
+        @media (max-width: 500px) {
+            .card {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .detail-item {
+                flex-direction: column;
+                gap: 0.2rem;
+            }
+            .detail-label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>📄 جزئیات کار</h1>
+            <div class="detail-item">
+                <div class="detail-label">عنوان:</div>
+                <div class="detail-value">{{ task.title }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">توضیحات:</div>
+                <div class="detail-value">{{ task.descriptions|default:"—" }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">تاریخ ایجاد:</div>
+                <div class="detail-value">{{ task.date_time|default:"—" }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">وضعیت:</div>
+                <div class="detail-value">
+                    {% if task.is_done %}
+                        <span class="status-badge status-done">✅ انجام شده</span>
+                    {% else %}
+                        <span class="status-badge status-pending">⏳ انجام نشده</span>
+                    {% endif %}
+                </div>
+            </div>
+            <a href="{% url 'task_list' %}" class="btn-back">← بازگشت به لیست</a>
+        </div>
+    </div>
+</body>
+</html>
